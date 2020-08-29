@@ -13,7 +13,7 @@ public class LoggingController {
     static {
         try {
              /*
-            window: D:\logfile\serverlog\server.log
+            window: D:\logfile\collectserverlog\server.log
             linux: /home/junmokang/scriptBox/serverlog/server.log
             * */
             fileHandler = new FileHandler("D:\\logfile\\collectserverlog\\server.log", true);

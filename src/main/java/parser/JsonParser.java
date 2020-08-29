@@ -1,4 +1,4 @@
-package dao.parser;
+package parser;
 
 import config.JsonKey;
 import org.json.simple.JSONObject;

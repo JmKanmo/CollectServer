@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class SocketController {
-    private ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private ExecutorService executorService = Executors.newFixedThreadPool(20);
     private ServerSocket serverSocket;
 
     public SocketController() {
@@ -52,7 +52,6 @@ public class SocketController {
                             }
                             String data = new String(byteArr, 0, inputCount, "UTF-8");
                             LoggingController.logging(Level.INFO, data);
-                            System.out.println(data);
                         } catch (Exception e) {
                             LoggingController.errorLogging(e);
                             try {
