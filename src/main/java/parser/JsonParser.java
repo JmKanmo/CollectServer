@@ -11,28 +11,19 @@ import java.util.Map;
 public class JsonParser {
     private JSONParser jsonParser;
 
+    public JsonParser() {
+        jsonParser = new JSONParser();
+    }
+
     public JSONParser getJsonParser() {
         return jsonParser;
     }
 
-    private JsonParser() {
-        jsonParser = new JSONParser();
-    }
-
-    public static JsonParser getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    private static class LazyHolder {
-        private static final JsonParser INSTANCE = new JsonParser();
-    }
-
-    public Map<String, JSONObject> getParsedMap(String data) throws ParseException {
-        String[] splited = data.split("&");
+    public Map<String, JSONObject> getParsedMap(String jsonKey, String jsonData) throws ParseException {
         Map<String, JSONObject> parsedMap = new HashMap<>();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(splited[1]);
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonData);
 
-        switch (splited[0]) {
+        switch (jsonKey) {
             case JsonKey.HEAP_MEMORY_COLLECTOR: {
                 parsedMap.put(JsonKey.HEAP_MEMORY_COLLECTOR, jsonObject);
                 break;

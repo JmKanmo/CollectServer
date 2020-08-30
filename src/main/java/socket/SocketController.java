@@ -1,5 +1,6 @@
 package socket;
 
+import handler.CollectionInfoHandler;
 import logger.LoggingController;
 
 import java.io.BufferedInputStream;
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 public class SocketController {
     private ExecutorService executorService = Executors.newFixedThreadPool(20);
     private ServerSocket serverSocket;
+    private CollectionInfoHandler collectionInfoHandler = new CollectionInfoHandler();
 
     public SocketController() {
         try {
@@ -47,11 +49,15 @@ public class SocketController {
                             // TODO Auto-generated method stub
                             byte[] byteArr = new byte[6500];
                             int inputCount = bufferedInputStream.read(byteArr);
+
                             if (inputCount == -1) {
                                 throw new IOException();
                             }
+
                             String data = new String(byteArr, 0, inputCount, "UTF-8");
+                            String[] splited = data.split("&");
                             LoggingController.logging(Level.INFO, data);
+                            collectionInfoHandler.addCollectionInfo(splited[0], splited[1]);
                         } catch (Exception e) {
                             LoggingController.errorLogging(e);
                             try {
