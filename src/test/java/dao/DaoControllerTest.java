@@ -2,6 +2,8 @@ package dao;
 
 import config.JsonKey;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 
@@ -16,10 +18,6 @@ public class DaoControllerTest {
 
     @Test
     public void testInvokeCollectionInfoWorker() {
-        DaoController daoController = new DaoController();
-        assertEquals(daoController.invokeCollectionInfoWorker(JsonKey.CLASS_LOADING_COLLECTOR, Collections.emptyMap()), true);
-        assertEquals(daoController.invokeCollectionInfoWorker(JsonKey.HEAP_MEMORY_COLLECTOR, Collections.emptyMap()), true);
-        assertEquals(daoController.invokeCollectionInfoWorker(JsonKey.RUNTIME_COLLECTOR, Collections.emptyMap()), true);
-        assertEquals(daoController.invokeCollectionInfoWorker(JsonKey.THREAD_COLLECTOR, Collections.emptyMap()), true);
+
     }
 }
