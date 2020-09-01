@@ -98,7 +98,9 @@ public class SocketController {
                 } catch (IOException e) {
                     LoggingController.errorLogging(e);
                     try {
-                        serverSocket.close();
+                        if (serverSocket != null && serverSocket.isClosed() != true) {
+                            serverSocket.close();
+                        }
                     } catch (IOException e1) {
                         LoggingController.errorLogging(e);
                     }

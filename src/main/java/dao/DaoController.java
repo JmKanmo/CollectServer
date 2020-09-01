@@ -47,7 +47,7 @@ public class DaoController {
         return connection;
     }
 
-    private boolean workCollectionInfoInsertion(CollectionInfoWorker collectionInfoWorker, Map<String, JSONObject> jsonObjectMap) {
+    public boolean workCollectionInfoInsertion(CollectionInfoWorker collectionInfoWorker, Map<String, JSONObject> jsonObjectMap) {
         return collectionInfoWorker.insertCollectionInfo(jsonObjectMap);
     }
 

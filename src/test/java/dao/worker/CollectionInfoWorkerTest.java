@@ -1,8 +1,13 @@
 package dao.worker;
 
+import dao.DaoController;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.mockito.*;
+
+import java.sql.Array;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -21,5 +26,14 @@ public class CollectionInfoWorkerTest {
 
         Integer integerRet = collectionInfoWorker.getNullOrNot((Integer) jsonObject.get("ddd"));
         assertEquals(longRet.intValue(), 0);
+
+        String[] strArr = {"Eden Space", "Survivor Space", "Tenured Gen"};
+
+        try {
+            Array array = new DaoController().getConnection().createArrayOf("text", strArr);
+            assertNotNull(array);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
