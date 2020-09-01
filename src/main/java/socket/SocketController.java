@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -35,6 +36,12 @@ public class SocketController {
 
         if (executorService != null && executorService.isShutdown() != true) {
             executorService.shutdown();
+        }
+
+        try {
+            collectionInfoHandler.close();
+        } catch (SQLException throwables) {
+            LoggingController.errorLogging(throwables);
         }
     }
 

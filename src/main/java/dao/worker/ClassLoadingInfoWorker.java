@@ -21,9 +21,9 @@ public class ClassLoadingInfoWorker implements CollectionInfoWorker {
                 PreparedStatement ps = (PreparedStatement) connection.prepareStatement(
                         SqlUtils.INSERT_CLASSLOADING_INFO);) {
             JSONObject jsonObject = jsonObjectMap.get("classLoadingInfo");
-            ps.setInt(1, ((Long) jsonObject.get("unloadedClassCount")).intValue());
-            ps.setInt(2, ((Long) jsonObject.get("totalLoadedClassCount")).intValue());
-            ps.setInt(3, ((Long) jsonObject.get("loadingClassCount")).intValue());
+            ps.setInt(1, getNullOrNot(((Long) jsonObject.get("unloadedClassCount"))).intValue());
+            ps.setInt(2, getNullOrNot(((Long) jsonObject.get("totalLoadedClassCount"))).intValue());
+            ps.setInt(3, getNullOrNot(((Long) jsonObject.get("loadingClassCount"))).intValue());
             ps.executeUpdate();
         } catch (Exception e) {
             LoggingController.errorLogging(e);

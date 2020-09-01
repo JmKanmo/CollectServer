@@ -37,6 +37,12 @@ public class DaoController {
         }
     }
 
+    public void close() throws SQLException {
+        if (connection != null && connection.isClosed() != true) {
+            connection.close();
+        }
+    }
+
     public Connection getConnection() {
         return connection;
     }

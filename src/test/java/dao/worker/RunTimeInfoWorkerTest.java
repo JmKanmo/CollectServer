@@ -21,7 +21,7 @@ public class RunTimeInfoWorkerTest {
         String[] splited = data.split("&");
         assertNotNull(splited[0]);
         assertEquals(splited[1], "{\"runtimeInfo\":{\"upTime\":334,\"vmversion\":\"11.0.7+10-LTS\",\"vmName\":\"OpenJDK 64-Bit Server VM\",\"name\":\"14789@localhost.localdomain\",\"startTime\":1598656544999,\"vmVendor\":\"Azul Systems, Inc.\"}}");
-        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(splited[0], splited[1]).get("runTimeCollector");
+        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(splited[0], splited[1]);
         assertNotNull(jsonObjectMap.get("runtimeInfo"));
         assertEquals(runTimeInfoWorker.insertCollectionInfo(jsonObjectMap), true);
     }

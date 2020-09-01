@@ -4,6 +4,8 @@ import dao.DaoController;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import parser.JsonParser;
+
+import java.sql.SQLException;
 import java.util.Map;
 
 public class CollectionInfoHandler {
@@ -13,5 +15,9 @@ public class CollectionInfoHandler {
     public boolean addCollectionInfo(String jsonKey, String jsonData) throws ParseException {
         Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(jsonKey, jsonData);
         return daoController.invokeCollectionInfoWorker(jsonKey, jsonObjectMap);
+    }
+
+    public void close() throws SQLException {
+        daoController.close();
     }
 }

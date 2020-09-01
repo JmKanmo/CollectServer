@@ -26,19 +26,19 @@ public class JsonParser {
         switch (jsonKey) {
             case JsonKey.HEAP_MEMORY_COLLECTOR: {
                 parsedMap.put(JsonKey.HEAP_MEMORY_COLLECTOR, jsonObject);
-                break;
+                return parsedMap.get("heapMemoryCollector");
             }
             case JsonKey.THREAD_COLLECTOR: {
                 parsedMap.put(JsonKey.THREAD_COLLECTOR, jsonObject);
-                break;
+                return parsedMap.get("threadCollector");
             }
             case JsonKey.CLASS_LOADING_COLLECTOR: {
                 parsedMap.put(JsonKey.CLASS_LOADING_COLLECTOR, jsonObject);
-                break;
+                return parsedMap.get("classLoadingCollector");
             }
             case JsonKey.RUNTIME_COLLECTOR: {
                 parsedMap.put(JsonKey.RUNTIME_COLLECTOR, jsonObject);
-                break;
+                return parsedMap.get("runTimeCollector");
             }
         }
         return parsedMap;

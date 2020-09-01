@@ -26,17 +26,19 @@ public class ThreadInfoWorker implements CollectionInfoWorker {
              PreparedStatement allThreadInfoPS = (PreparedStatement) connection.prepareStatement(
                      SqlUtils.INSERT_ALL_THREAD_INFO);
         ) {
-            JSONObject jsonObject = jsonObjectMap.get("overallInfo");
-            overallThreadInfoPS.setInt(1, getNullOrNot(((Long) jsonObject.get("TotalStartedThreadCount"))).intValue());
-            overallThreadInfoPS.setInt(2, getNullOrNot(((Long) jsonObject.get("PeakThreadCount"))).intValue());
-            overallThreadInfoPS.setInt(3, getNullOrNot(((Long) jsonObject.get("DaemonThreadCount"))).intValue());
+            JSONObject overallInfoJsonObject = jsonObjectMap.get("overallInfo");
+            JSONObject allThreadInfoJsonObject = (JSONObject) new JSONParser().parse(jsonObjectMap.toString());
+
+            overallThreadInfoPS.setInt(1, getNullOrNot(((Long) overallInfoJsonObject.get("TotalStartedThreadCount"))).intValue());
+            overallThreadInfoPS.setInt(2, getNullOrNot(((Long) overallInfoJsonObject.get("PeakThreadCount"))).intValue());
+            overallThreadInfoPS.setInt(3, getNullOrNot(((Long) overallInfoJsonObject.get("DaemonThreadCount"))).intValue());
             overallThreadInfoPS.executeUpdate();
 
-            jsonObject = (JSONObject) new JSONParser().parse(jsonObjectMap.toString());
-            JSONArray jsonArray = (JSONArray) jsonObject.get("allThread");
+            JSONArray jsonArray = (JSONArray) allThreadInfoJsonObject.get("allThread");
 
             jsonArray.forEach(jsonData -> {
                 JSONObject castedJsonObj = (JSONObject) jsonData;
+
                 try {
                     allThreadInfoPS.setString(1, getNullOrNot((String) castedJsonObj.get("name")));
                     allThreadInfoPS.setString(2, getNullOrNot((String) castedJsonObj.get("state")));
