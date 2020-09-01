@@ -8,19 +8,12 @@ import org.json.simple.parser.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class JsonParser {
-    private JSONParser jsonParser;
-
-    public JsonParser() {
-        jsonParser = new JSONParser();
-    }
-
-    public JSONParser getJsonParser() {
-        return jsonParser;
-    }
 
     public Map<String, JSONObject> getParsedMap(String jsonKey, String jsonData) throws ParseException {
         Map<String, JSONObject> parsedMap = new HashMap<>();
+        JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonData);
 
         switch (jsonKey) {
