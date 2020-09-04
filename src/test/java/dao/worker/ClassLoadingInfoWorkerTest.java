@@ -21,7 +21,7 @@ public class ClassLoadingInfoWorkerTest {
         String[] splited = data.split("&");
         assertNotNull(splited[0]);
         assertEquals(splited[1], "{\"classLoadingInfo\":{\"unloadedClassCount\":0,\"totalLoadedClassCount\":1440,\"loadingClassCount\":1440}}");
-        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(splited[0], splited[1]);
+        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(splited[1]);
         assertNotNull(jsonObjectMap.get("classLoadingInfo"));
         assertEquals(classLoadingInfoWorker.insertCollectionInfo(jsonObjectMap), true);
     }

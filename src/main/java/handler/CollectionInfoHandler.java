@@ -13,7 +13,7 @@ public class CollectionInfoHandler {
     private DaoController daoController = new DaoController();
 
     public boolean addCollectionInfo(String jsonKey, String jsonData) throws ParseException {
-        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(jsonKey, jsonData);
+        Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(jsonData);
         return daoController.invokeCollectionInfoWorker(jsonKey, jsonObjectMap);
     }
 
