@@ -32,7 +32,7 @@ public class CollectionInfoWorkerTest {
         try {
             Array array = new DaoController().getConnection().createArrayOf("text", strArr);
             assertNotNull(array);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }

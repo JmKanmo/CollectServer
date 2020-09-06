@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import parser.JsonParser;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 public class ClassLoadingInfoWorkerTest {
 
     @Test
-    public void insertCollectionInfo() throws ParseException {
+    public void insertCollectionInfo() throws ParseException, SQLException, ClassNotFoundException {
         DaoController daoController = new DaoController();
         ClassLoadingInfoWorker classLoadingInfoWorker = new ClassLoadingInfoWorker(daoController.getConnection());
         JsonParser jsonParser = new JsonParser();

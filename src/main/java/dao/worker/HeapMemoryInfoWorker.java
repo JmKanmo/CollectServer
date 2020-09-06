@@ -5,6 +5,7 @@ import logger.LoggingController;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.sql.Array;
 import java.sql.Connection;
@@ -22,7 +23,7 @@ public class HeapMemoryInfoWorker implements CollectionInfoWorker {
     }
 
     @Override
-    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) {
+    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) throws ParseException, SQLException {
         try (
                 PreparedStatement heapMemoryInfoPS = (PreparedStatement) connection.prepareStatement(
                         SqlUtils.INSERT_HEAP_MEMORY_INFO);
@@ -50,8 +51,8 @@ public class HeapMemoryInfoWorker implements CollectionInfoWorker {
 
             JSONArray jsonArray = (JSONArray) garbageCollectionInfoJsonObject.get("garbageCollection");
 
-            jsonArray.forEach(jsonData -> {
-                JSONObject castedJsonObj = (JSONObject) jsonData;
+            for (Object object : jsonArray) {
+                JSONObject castedJsonObj = (JSONObject) object;
 
                 try {
                     garbageCollectionPS.setInt(1, getNullOrNot(((Long) castedJsonObj.get("collectiontime"))).intValue());
@@ -64,13 +65,12 @@ public class HeapMemoryInfoWorker implements CollectionInfoWorker {
 
                     garbageCollectionPS.setArray(4, array);
                     garbageCollectionPS.executeUpdate();
-                } catch (SQLException throwables) {
-                    LoggingController.errorLogging(throwables);
+                } catch (SQLException e) {
+                    throw e;
                 }
-            });
+            }
         } catch (Exception e) {
-            LoggingController.errorLogging(e);
-            return false;
+            throw e;
         }
         return true;
     }

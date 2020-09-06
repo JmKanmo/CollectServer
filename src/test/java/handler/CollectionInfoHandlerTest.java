@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.mockito.*;
 import parser.JsonParser;
 
+import java.sql.SQLException;
+
 public class CollectionInfoHandlerTest {
     @InjectMocks
     CollectionInfoHandler collectionInfoHandler;
@@ -19,7 +21,7 @@ public class CollectionInfoHandlerTest {
     DaoController daoController;
 
     @Test
-    public void addCollectionInfo() throws ParseException {
+    public void addCollectionInfo() throws ParseException, SQLException {
         MockitoAnnotations.initMocks(this);
         Mockito.when(jsonParser.getParsedMap(Mockito.anyString())).thenReturn(null);
 

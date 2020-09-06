@@ -9,10 +9,15 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class CollectionInfoHandler {
-    private JsonParser jsonParser = new JsonParser();
-    private DaoController daoController = new DaoController();
+    private JsonParser jsonParser;
+    private DaoController daoController;
 
-    public boolean addCollectionInfo(String jsonKey, String jsonData) throws ParseException {
+    public CollectionInfoHandler() throws SQLException, ClassNotFoundException {
+        jsonParser = new JsonParser();
+        daoController = new DaoController();
+    }
+
+    public boolean addCollectionInfo(String jsonKey, String jsonData) throws ParseException, SQLException {
         Map<String, JSONObject> jsonObjectMap = jsonParser.getParsedMap(jsonData);
         return daoController.invokeCollectionInfoWorker(jsonKey, jsonObjectMap);
     }

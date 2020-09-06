@@ -1,8 +1,10 @@
 package dao.worker;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 public interface CollectionInfoWorker {
@@ -30,5 +32,5 @@ public interface CollectionInfoWorker {
         }
     }
 
-    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap);
+    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) throws SQLException, ParseException;
 }

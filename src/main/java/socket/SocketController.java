@@ -1,6 +1,7 @@
 package socket;
 
 import handler.CollectionInfoHandler;
+import logger.ErrorLoggingController;
 import logger.LoggingController;
 
 import java.io.BufferedInputStream;
@@ -15,13 +16,14 @@ import java.util.logging.Level;
 public class SocketController {
     private ExecutorService executorService = Executors.newFixedThreadPool(20);
     private ServerSocket serverSocket;
-    private CollectionInfoHandler collectionInfoHandler = new CollectionInfoHandler();
+    private CollectionInfoHandler collectionInfoHandler;
 
     public SocketController() {
         try {
             serverSocket = new ServerSocket();
-        } catch (IOException e) {
-            LoggingController.errorLogging(e);
+            collectionInfoHandler = new CollectionInfoHandler();
+        } catch (Exception e) {
+            ErrorLoggingController.errorLogging(e);
         }
     }
 
@@ -30,7 +32,7 @@ public class SocketController {
             try {
                 serverSocket.close();
             } catch (IOException e) {
-                LoggingController.errorLogging(e);
+                ErrorLoggingController.errorLogging(e);
             }
         }
 
@@ -41,7 +43,7 @@ public class SocketController {
         try {
             collectionInfoHandler.close();
         } catch (SQLException throwables) {
-            LoggingController.errorLogging(throwables);
+            ErrorLoggingController.errorLogging(throwables);
         }
     }
 
@@ -66,19 +68,19 @@ public class SocketController {
                             LoggingController.logging(Level.INFO, data);
                             collectionInfoHandler.addCollectionInfo(splited[0], splited[1]);
                         } catch (Exception e) {
-                            LoggingController.errorLogging(e);
+                            ErrorLoggingController.errorLogging(e);
                             try {
                                 if (socket.isClosed() != true) {
                                     socket.close();
                                 }
                             } catch (IOException e1) {
-                                LoggingController.errorLogging(e1);
+                                ErrorLoggingController.errorLogging(e1);
                             }
                             break;
                         }
                     }
                 } catch (Exception e) {
-                    LoggingController.errorLogging(e);
+                    ErrorLoggingController.errorLogging(e);
                 }
             }
         });
@@ -96,13 +98,13 @@ public class SocketController {
                         receiveJson(socket);
                     }
                 } catch (IOException e) {
-                    LoggingController.errorLogging(e);
+                    ErrorLoggingController.errorLogging(e);
                     try {
                         if (serverSocket != null && serverSocket.isClosed() != true) {
                             serverSocket.close();
                         }
                     } catch (IOException e1) {
-                        LoggingController.errorLogging(e);
+                        ErrorLoggingController.errorLogging(e1);
                     }
                 }
             }

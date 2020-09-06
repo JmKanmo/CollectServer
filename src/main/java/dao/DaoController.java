@@ -11,20 +11,16 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import config.JsonKey;
+import org.json.simple.parser.ParseException;
 
 public class DaoController {
     private Connection connection;
 
-    public DaoController() {
-        init();
-    }
-
-    private void init() {
+    public DaoController() throws ClassNotFoundException, SQLException {
         try {
             Class.forName(DBConfiguration.DRIVER_URL);
         } catch (ClassNotFoundException e) {
-            LoggingController.errorLogging(e);
-            return;
+            throw e;
         }
 
         try {
@@ -32,8 +28,7 @@ public class DaoController {
                     DBConfiguration.DB_URL, DBConfiguration.DB_NAME,
                     DBConfiguration.DB_PASSWORD);
         } catch (SQLException e) {
-            LoggingController.errorLogging(e);
-            return;
+            throw e;
         }
     }
 
@@ -47,11 +42,11 @@ public class DaoController {
         return connection;
     }
 
-    public boolean workCollectionInfoInsertion(CollectionInfoWorker collectionInfoWorker, Map<String, JSONObject> jsonObjectMap) {
+    public boolean workCollectionInfoInsertion(CollectionInfoWorker collectionInfoWorker, Map<String, JSONObject> jsonObjectMap) throws SQLException, ParseException {
         return collectionInfoWorker.insertCollectionInfo(jsonObjectMap);
     }
 
-    public boolean invokeCollectionInfoWorker(String jsonKey, Map<String, JSONObject> jsonObjectMap) {
+    public boolean invokeCollectionInfoWorker(String jsonKey, Map<String, JSONObject> jsonObjectMap) throws SQLException, ParseException {
         switch (jsonKey) {
             case JsonKey.HEAP_MEMORY_COLLECTOR:
                 return workCollectionInfoInsertion(new HeapMemoryInfoWorker(connection), jsonObjectMap);

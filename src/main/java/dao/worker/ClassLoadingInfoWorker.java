@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class ClassLoadingInfoWorker implements CollectionInfoWorker {
@@ -16,7 +17,7 @@ public class ClassLoadingInfoWorker implements CollectionInfoWorker {
     }
 
     @Override
-    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) {
+    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) throws SQLException {
         try (
                 PreparedStatement ps = (PreparedStatement) connection.prepareStatement(
                         SqlUtils.INSERT_CLASSLOADING_INFO);) {
@@ -26,8 +27,7 @@ public class ClassLoadingInfoWorker implements CollectionInfoWorker {
             ps.setInt(3, getNullOrNot(((Long) jsonObject.get("loadingClassCount"))).intValue());
             ps.executeUpdate();
         } catch (Exception e) {
-            LoggingController.errorLogging(e);
-            return false;
+            throw e;
         }
         return true;
     }

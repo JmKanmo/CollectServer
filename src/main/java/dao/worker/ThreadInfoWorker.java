@@ -5,6 +5,7 @@ import logger.LoggingController;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,7 @@ public class ThreadInfoWorker implements CollectionInfoWorker {
     }
 
     @Override
-    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) {
+    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) throws ParseException, SQLException {
         try (PreparedStatement overallThreadInfoPS = (PreparedStatement) connection.prepareStatement(
                 SqlUtils.INSERT_OVERALL_THREAD_INFO);
              PreparedStatement allThreadInfoPS = (PreparedStatement) connection.prepareStatement(
@@ -36,8 +37,8 @@ public class ThreadInfoWorker implements CollectionInfoWorker {
 
             JSONArray jsonArray = (JSONArray) allThreadInfoJsonObject.get("allThread");
 
-            jsonArray.forEach(jsonData -> {
-                JSONObject castedJsonObj = (JSONObject) jsonData;
+            for (Object object : jsonArray) {
+                JSONObject castedJsonObj = (JSONObject) object;
 
                 try {
                     allThreadInfoPS.setString(1, getNullOrNot((String) castedJsonObj.get("name")));
@@ -45,13 +46,12 @@ public class ThreadInfoWorker implements CollectionInfoWorker {
                     allThreadInfoPS.setInt(3, getNullOrNot(((Long) castedJsonObj.get("waitCount")).intValue()));
                     allThreadInfoPS.setString(4, getNullOrNot((String) castedJsonObj.get("lockName")));
                     allThreadInfoPS.executeUpdate();
-                } catch (SQLException throwables) {
-                    LoggingController.errorLogging(throwables);
+                } catch (SQLException e) {
+                    throw e;
                 }
-            });
+            }
         } catch (Exception e) {
-            LoggingController.errorLogging(e);
-            return false;
+            throw e;
         }
         return true;
     }

@@ -1,27 +1,22 @@
 package dao;
 
 import config.JsonKey;
-import dao.worker.ClassLoadingInfoWorker;
 import dao.worker.HeapMemoryInfoWorker;
-import dao.worker.RunTimeInfoWorker;
-import dao.worker.ThreadInfoWorker;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-
-import java.util.Collections;
-
+import java.sql.SQLException;
 import static org.junit.Assert.*;
 
 public class DaoControllerTest {
     @Test
-    public void testInit() {
+    public void testInit() throws SQLException, ClassNotFoundException {
         DaoController daoController = new DaoController();
         assertNotNull(daoController.getConnection());
     }
 
     @Test
-    public void testInvokeCollectionInfoWorker() {
+    public void testInvokeCollectionInfoWorker() throws SQLException, ParseException {
         DaoController daoController = Mockito.mock(DaoController.class);
         Mockito.when(daoController.workCollectionInfoInsertion(new HeapMemoryInfoWorker(daoController.getConnection()), null)).thenReturn(true);
         Mockito.when(daoController.invokeCollectionInfoWorker(JsonKey.HEAP_MEMORY_COLLECTOR, null)).thenReturn(true);

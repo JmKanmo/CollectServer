@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class RunTimeInfoWorker implements CollectionInfoWorker {
@@ -16,7 +17,7 @@ public class RunTimeInfoWorker implements CollectionInfoWorker {
     }
 
     @Override
-    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) {
+    public boolean insertCollectionInfo(Map<String, JSONObject> jsonObjectMap) throws SQLException {
         try (
                 PreparedStatement ps = (PreparedStatement) connection.prepareStatement(
                         SqlUtils.INSERT_RUNTIME_INFO);) {
@@ -29,8 +30,7 @@ public class RunTimeInfoWorker implements CollectionInfoWorker {
             ps.setString(6, getNullOrNot((String) jsonObject.get("vmversion")));
             ps.executeUpdate();
         } catch (Exception e) {
-            LoggingController.errorLogging(e);
-            return false;
+            throw e;
         }
         return true;
     }
